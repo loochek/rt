@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS=-g
+CFLAGS=-Ofast
 
 build:
 	$(CC) $(CFLAGS) main.c math_lib.c rt.c -lm -o rt
