@@ -33,10 +33,23 @@ typedef struct sphere
     material_t material;
 } sphere_t;
 
+// plane is clipped by circle
+typedef struct plane
+{
+    vec3_t     position;
+    vec3_t     norm;
+    float      radius;
+    
+    material_t material;
+} plane_t;
+
 typedef struct scene
 {
     sphere_t *spheres;
     size_t    spheres_count;
+
+    plane_t  *planes;
+    size_t    planes_count;
 
     light_t  *lights;
     size_t    lights_count;

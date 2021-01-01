@@ -57,6 +57,7 @@ bool more_or_eq(float a, float b);
 bool equal     (float a, float b);
 
 struct sphere;
+struct plane;
 
 /**
  * Checks intersection of ray and sphere
@@ -64,5 +65,12 @@ struct sphere;
  */
 bool ray_sphere_intersect(vec3_t *out_intersect_point,vec3_t ray_origin, vec3_t ray_dir,
                           struct sphere sphere);
+
+/**
+ * Checks intersection of ray and plane
+ * Gives intersection point if intersects
+ */
+bool ray_plane_intersect(vec3_t *out_intersect_point,vec3_t ray_origin, vec3_t ray_dir,
+                          struct plane plane);
 
 #endif

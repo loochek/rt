@@ -110,14 +110,14 @@ bool ray_sphere_intersect(vec3_t *out_intersect_point,vec3_t ray_origin, vec3_t 
 
     float t = 0;
     
-    if (fabsf(d) < EPS)
+    if (equal(d, 0))
     {
         float t1 = -b / (2 * a);
 
         if (t1 > EPS)
             t = t1;
     }
-    else if (d > EPS)
+    else if (more(d, 0))
     {
         float t1 = (-b - sqrtf(d)) / (2 * a);
         float t2 = (-b + sqrtf(d)) / (2 * a);
@@ -128,9 +128,30 @@ bool ray_sphere_intersect(vec3_t *out_intersect_point,vec3_t ray_origin, vec3_t 
             t = t2;
     }
 
-    if (fabsf(t) < EPS)
+    if (equal(t, 0))
         return false;
 
     *out_intersect_point = vec_add(ray_origin, vec_mul_num(ray_dir, t));
+    return true;
+}
+
+bool ray_plane_intersect(vec3_t *out_intersect_point,vec3_t ray_origin, vec3_t ray_dir,
+                         plane_t plane)
+{
+    ray_dir = vec_norm(ray_dir);
+
+    float num   = vec_product(vec_sub(plane.position, ray_origin), plane.norm);
+    float denom = vec_product(ray_dir, plane.norm);
+
+    float param = num / denom;
+
+    if (less_or_eq(param, 0))
+        return false;
+
+    *out_intersect_point = vec_add(ray_origin, vec_mul_num(ray_dir, param));
+
+    if (more(vec_length(vec_sub(*out_intersect_point, plane.position)), plane.radius))
+        return false;
+
     return true;
 }
